@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ping2me-ui
+  namespace: tests
+spec:
+  rules:
+  - host: status.yourcompany.com
+    http:
+      paths:
+      - backend:
+          serviceName: ping2me-ui
+          servicePort: 80

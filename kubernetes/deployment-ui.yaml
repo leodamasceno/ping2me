@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ping2me-ui
+  namespace: tests
+spec:
+  selector:
+    matchLabels:
+      app: ping2me-ui
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ping2me-ui
+    spec:
+      containers:
+      - name: ping2me-ui
+        image: damasceno/ping2me-ui:1.2.3
+        env:
+        - name: API_URL
+          value: "http://api.yourcompany.com"
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: regcred

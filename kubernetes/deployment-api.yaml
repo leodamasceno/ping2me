@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ping2me-api
+  namespace: tests
+spec:
+  selector:
+    matchLabels:
+      app: ping2me-api
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ping2me-api
+    spec:
+      containers:
+      - name: ping2me-api
+        image: damasceno/ping2me-api:1.0.4
+        volumeMounts:
+        - name: ping2me-api-config
+          mountPath: /app/config.yaml
+          subPath: config.yaml
+        env:
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ping2me-app
+              key: db_password
+        ports:
+        - containerPort: 4567
+      volumes:
+      - name: ping2me-api-config
+        configMap:
+          name: ping2me-api-config
+      imagePullSecrets:
+      - name: regcred

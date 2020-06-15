@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ping2me-crawler
+  namespace: tests
+spec:
+  selector:
+    matchLabels:
+      app: ping2me-crawler
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ping2me-crawler
+    spec:
+      containers:
+      - name: ping2me-crawler
+        image: damasceno/ping2me-crawler:1.1.0
+        env:
+        - name: API_URL
+          value: http://api.demo.ping2me.io
+        - name: INTERVAL
+          value: '30'
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ping2me-app
+              key: db_password
+        - name: SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: ping2me-app
+              key: smtp_password
+      imagePullSecrets:
+      - name: regcred
