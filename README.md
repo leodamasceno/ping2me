@@ -3,12 +3,8 @@
 
 ping2me is a real time monitoring tool made simple. Configure it to show the status of your endpoints and share it with other teams or publicly.
 
-## Dependencies
-
-Make sure you have these dependencies installed and running:
-
-- [MySQL Server](https://dev.mysql.com/downloads/) or [MariaDB](https://downloads.mariadb.org/)
-- [Docker](https://docs.docker.com/get-docker/)
+## Demo
+Check a live example [here](http://demo.ping2me.io).
 
 ## Features
 - Different views
@@ -23,6 +19,13 @@ Make sure you have these dependencies installed and running:
 - SMTP
   - Send emails when the application detects a host down
   - SMTP can be configured to be used locally with or without TLS
+
+## Dependencies
+
+Make sure you have these dependencies installed and running:
+
+- [MySQL Server](https://dev.mysql.com/downloads/) or [MariaDB](https://downloads.mariadb.org/)
+- [Docker](https://docs.docker.com/get-docker/)
 
 ## Infrastructure
 You can run it with or without database. We store information about previous issues so you can be aware of what happened in the past, if you do not want to store old/previous issues, do not install the crawler nor configure the database.
