@@ -19,6 +19,18 @@ Check a live example [here](http://demo.ping2me.io).
 - SMTP
   - Send emails when the application detects a host down
   - SMTP can be configured to be used locally with or without TLS
+  
+## Scenarios
+- Real-time monitoring
+  - It keeps checking the hosts configured via *config.yaml* but do not store any data
+  - SMTP is not available
+  - "Last issues" view is not available
+  - Report is not available
+- Real-time monitoring with database
+  - It keeps checking the hosts configured via *config.yaml* and stores issues to database via *crawler*
+  - SMTP feature checks the last issues from database and sends an alert
+  - "Last issues" view is available and will show the last 10 issues by default
+  - Availability report shows the health of the hosts
 
 ## Dependencies
 
@@ -98,7 +110,7 @@ config:
         - 200
 ```
 
-Only specify the *oncall* section if you want to enable the [PagerDuty](https://www.pagerduty.com/) integration. You will need to provide an *API Token* and the *Escalation ID*. The smtp section can also be omitted.
+Only specify the *oncall* section if you want to enable the [PagerDuty](https://www.pagerduty.com/) integration. You will need to provide an *API Token* and the *Escalation ID*. The smtp section can also be omitted.<br>
 Do not specify the *database* section if you do not want to store information about issues. The application will understand that and show you ONLY real time data. Look at the following example:
 ```
 config:
@@ -123,7 +135,7 @@ config:
 ```
 
 ## Configure your DNS
-Configure a DNS entry to point to the *UI* so you can access the application via web, an example: *status.yourcompany.com*.
+Configure a DNS entry to point to the *UI* so you can access the application via web, an example: *status.yourcompany.com*.<br>
 If you wish to use SSL certificates, configure the *UI* and the *API*, you will see the [Mixed Content](https://developers.google.com/web/fundamentals/security/prevent-mixed-content/what-is-mixed-content) error otherwise.
 
 ## Running ping2me locally
@@ -166,7 +178,7 @@ docker run --rm -d -p 80:80 --name ping2me-ui \
 --env API_URL=http://MY_API_URL:4567 \
 damasceno/ping2me-ui:latest
 ```
-**DO NOT** forget to change the *API* url from *MY_API_URL* to the IP or domain configured.
+**DO NOT** forget to change the *API* url from *MY_API_URL* to the IP or domain configured.<br>
 Also, the *UI* will be accessible via port 80 (HTTP) in the example above, make sure to change it to 443 (HTTPS) if you intend to configure your SSL certificate or simply add a nginx proxy to redirect requests to it.
 
 ### *Kubernetes*
@@ -206,7 +218,7 @@ The deployment of the components is done. Now, expose them:
 kubectl create -f kubernetes/service-api.yaml
 kubectl create -f kubernetes/service-ui.yaml
 ```
-The *Crawler* does not need to be exposed since it is a background service.
+The *Crawler* does not need to be exposed since it is a background service.<br>
 Create ingresses for the *API* and the *UI*, but make sure to edit the files to change the host. For instance, if you want to create DNS entries like *status.yourcompany.com* and *api.yourcompany.com*, specify them in the ingresses to make both components accessible. Check the example below:
 ```
 apiVersion: networking.k8s.io/v1beta1
@@ -223,7 +235,7 @@ spec:
           serviceName: ping2me-api
           servicePort: 4567
 ```
-**IMPORTANT**: This will create a public endpoint (Load Balancer).
+**IMPORTANT**: This will create a public endpoint (Load Balancer). <br>
 **IMPORTANT**: The example above will allow you to access the endpoints via port 80 (HTTP). You need to configure the SSL certificates in order to have both endpoints over HTTPS. Check the [official documentation](https://kubernetes.io/docs/concepts/services-networking/ingress/) to learn how to configure it.
 
 Once the files are correct, execute the following commands to create both accessible endpoints:
